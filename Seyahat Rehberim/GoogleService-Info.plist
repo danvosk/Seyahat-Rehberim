@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDpiVm4uvoqr7qA1LLEIJZB5t0YbEW5Vb8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>275873617585</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>gorkemkaragoz.Seyahat-Rehberim</string>
+	<key>PROJECT_ID</key>
+	<string>seyahat-rehberim-16098</string>
+	<key>STORAGE_BUCKET</key>
+	<string>seyahat-rehberim-16098.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:275873617585:ios:03802fca7af0223b38f490</string>
+</dict>
+</plist>
