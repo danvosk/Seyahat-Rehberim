@@ -5,29 +5,75 @@
 //  Created by Görkem Karagöz on 29.10.2024.
 //
 
-import Foundation
 import UIKit
+import Firebase
+
+struct Landmark {
+    let name: String
+}
 
 struct City {
     let title: String
-    let image: UIImage
+    let imageName: String // Görsel ismini tutmak için
+    var landmarks: [Landmark]
+    
+    var image: UIImage? {
+        return UIImage(named: imageName)
+    }
 }
 
 class CityData {
-    static let cities: [City] = [
-        City(title: "İstanbul", image: UIImage(named: "istanbul")!),
-        City(title: "Ankara", image: UIImage(named: "ankara")!),
-        City(title: "İzmir", image: UIImage(named: "izmir")!),
-        City(title: "Antalya", image: UIImage(named: "antalya")!),
-        City(title: "Muğla", image: UIImage(named: "mugla")!),
-        City(title: "Mardin", image: UIImage(named: "mardin")!),
-        City(title: "Nevşehir", image: UIImage(named: "nevsehir")!),
-        City(title: "Bursa", image: UIImage(named: "bursa")!),
-        City(title: "Çanakkale", image: UIImage(named: "canakkale")!),
-        City(title: "Konya", image: UIImage(named: "konya")!),
-        City(title: "Trabzon", image: UIImage(named: "trabzon")!),
-        City(title: "Eskişehir", image: UIImage(named: "eskisehir")!),
-        City(title: "Denizli", image: UIImage(named: "denizli")!),
-        City(title: "Rize", image: UIImage(named: "rize")!)
-    ]
+    static var cities: [City] = []
+    
+    static func fetchCities(completion: @escaping () -> Void) {
+        let db = Firestore.firestore()
+        
+        db.collection("cities").getDocuments { (snapshot, error) in
+            guard let documents = snapshot?.documents, error == nil else {
+                print("Error fetching cities: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            cities.removeAll() // Mevcut şehir listesini temizliyoruz
+            
+            let dispatchGroup = DispatchGroup() // Tüm işlemler tamamlandıktan sonra çağırmak için
+
+            for document in documents {
+                let title = document.documentID
+                let imageName = document.documentID // imageName olarak şehir ismini kullanıyoruz
+                let landmarksCollection = document.reference.collection("landmarks")
+                
+                dispatchGroup.enter()
+                fetchLandmarks(forCityTitle: title, landmarksCollection: landmarksCollection) { landmarks in
+                    let city = City(title: title, imageName: imageName, landmarks: landmarks)
+                    cities.append(city)
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                completion() // Tüm veriler çekildikten sonra tamamlanıyor
+            }
+        }
+    }
+
+    
+    static func fetchLandmarks(forCityTitle title: String, landmarksCollection: CollectionReference, completion: @escaping ([Landmark]) -> Void) {
+        var landmarks: [Landmark] = []
+        
+        landmarksCollection.getDocuments { (snapshot, error) in
+            guard let documents = snapshot?.documents, error == nil else {
+                print("Error fetching landmarks for \(title): \(error?.localizedDescription ?? "Unknown error")")
+                completion([])
+                return
+            }
+            
+            for document in documents {
+                let name = document.data()["name"] as? String ?? "Unknown"
+                let landmark = Landmark(name: name)
+                landmarks.append(landmark)
+            }
+            completion(landmarks)
+        }
+    }
 }

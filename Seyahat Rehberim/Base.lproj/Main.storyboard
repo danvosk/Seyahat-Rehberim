@@ -181,6 +181,21 @@
                                     <navigationItem title="Şehir Adı" id="igx-Eh-iDz"/>
                                 </items>
                             </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="66D-gw-sRl">
+                                <rect key="frame" x="0.0" y="92" width="393" height="740"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LandmarkCell" id="Tef-gr-SCb">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tef-gr-SCb" id="DQL-9H-IdY">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9Yg-Oy-twi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -188,12 +203,12 @@
                     <navigationItem key="navigationItem" id="jAe-Kt-Kfm"/>
                     <connections>
                         <outlet property="cityName" destination="igx-Eh-iDz" id="s57-8C-cGf"/>
-                        <outlet property="navigationBar" destination="Lld-Y7-IJp" id="v2d-aL-4Zo"/>
+                        <outlet property="tableView" destination="66D-gw-sRl" id="1rR-nS-wht"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ghc-R6-Xb8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1106" y="1334"/>
+            <point key="canvasLocation" x="1104.5801526717557" y="1333.8028169014085"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="T0b-rn-ROY">
@@ -277,7 +292,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TML-qB-YEd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1170" y="-199"/>
+            <point key="canvasLocation" x="1167" y="-180"/>
         </scene>
     </scenes>
     <resources>
