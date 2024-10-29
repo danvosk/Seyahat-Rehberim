@@ -70,36 +70,39 @@
                         <outlet property="passwordTextField" destination="9lB-L9-AFX" id="HyF-SA-hGI"/>
                         <outlet property="usernameTextField" destination="nKX-om-Man" id="Bmi-UJ-oh6"/>
                         <segue destination="euP-d1-XB1" kind="presentation" identifier="toRegisterVc" modalPresentationStyle="fullScreen" id="YMJ-vn-9y1"/>
-                        <segue destination="DcN-1a-qeB" kind="presentation" identifier="toMainVc" modalPresentationStyle="fullScreen" id="S7f-aL-rrn"/>
+                        <segue destination="3k2-7C-OtS" kind="presentation" identifier="toMainVc" modalPresentationStyle="fullScreen" id="9L0-wX-vL9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="107.63358778625954" y="3.5211267605633805"/>
+            <point key="canvasLocation" x="108" y="-179"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yc4-NL-8zc">
+            <objects>
+                <navigationController id="3k2-7C-OtS" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Bmr-9g-fSS"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PiO-Sg-NLZ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.78784887510000001" green="0.0" blue="0.067337325729999994" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="DcN-1a-qeB" kind="relationship" relationship="rootViewController" id="ff3-tg-6n8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oNf-MR-Z5F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="108" y="554"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="lpH-RR-FAI">
             <objects>
-                <viewController id="DcN-1a-qeB" customClass="MainViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="DcN-1a-qeB" customClass="MainViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RQ9-5w-ZbQ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jcv-fh-K7A">
-                                <rect key="frame" x="0.0" y="49" width="393" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <items>
-                                    <navigationItem title="Şehirler" id="mOW-oT-cKA">
-                                        <barButtonItem key="rightBarButtonItem" image="arrowshape.turn.up.backward.2.fill" catalog="system" id="XJi-Le-7zV">
-                                            <color key="tintColor" red="0.78784887510000001" green="0.0" blue="0.067337325729999994" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <connections>
-                                                <action selector="backButtonTapped:" destination="DcN-1a-qeB" id="HtE-c5-xy8"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="QS4-Uy-bg9">
                                 <rect key="frame" x="16" y="93" width="361" height="722"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -123,7 +126,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COV-6u-C27">
-                                                    <rect key="frame" x="0.0" y="121" width="178" height="18"/>
+                                                    <rect key="frame" x="0.0" y="121" width="178" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -139,18 +142,58 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G3x-L3-lM4">
+                                <rect key="frame" x="0.0" y="49" width="393" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <navigationItem title="Şehirler" id="DkQ-xT-X6R"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yPO-a5-gcw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="xmJ-fl-wzM"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="QS4-Uy-bg9" id="5Mk-q6-Eg4"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="toLoginVC" modalPresentationStyle="fullScreen" id="gfu-Gq-3a9"/>
+                        <segue destination="IbH-Kz-iq3" kind="show" identifier="toCityVc" id="9EL-MI-wf4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vxr-4Y-Ckg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="107.63358778625954" y="751.4084507042254"/>
+            <point key="canvasLocation" x="107.63358778625954" y="1333.8028169014085"/>
+        </scene>
+        <!--City View Controller-->
+        <scene sceneID="Dug-aI-5oI">
+            <objects>
+                <viewController id="IbH-Kz-iq3" customClass="CityViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VAp-Jm-jGa">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lld-Y7-IJp">
+                                <rect key="frame" x="0.0" y="48" width="393" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <navigationItem title="Şehir Adı" id="igx-Eh-iDz"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9Yg-Oy-twi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jAe-Kt-Kfm"/>
+                    <connections>
+                        <outlet property="cityName" destination="igx-Eh-iDz" id="s57-8C-cGf"/>
+                        <outlet property="navigationBar" destination="Lld-Y7-IJp" id="v2d-aL-4Zo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ghc-R6-Xb8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1106" y="1334"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="T0b-rn-ROY">
@@ -234,14 +277,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TML-qB-YEd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1000.763358778626" y="3.5211267605633805"/>
+            <point key="canvasLocation" x="1170" y="-199"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="gfu-Gq-3a9"/>
-    </inferredMetricsTieBreakers>
     <resources>
-        <image name="arrowshape.turn.up.backward.2.fill" catalog="system" width="128" height="99"/>
         <image name="colorful-gradient-background-modern-design_361591-4281" width="360" height="810"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
