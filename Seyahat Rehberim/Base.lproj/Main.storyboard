@@ -103,6 +103,32 @@
             </objects>
             <point key="canvasLocation" x="108" y="554"/>
         </scene>
+        <!--Menu View Controller-->
+        <scene sceneID="XXA-QS-ojA">
+            <objects>
+                <viewController id="M4n-nH-QXu" customClass="MenuViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8S8-mE-fFc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NPY-aP-avI">
+                                <rect key="frame" x="0.0" y="44" width="393" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <navigationItem title="Menü" id="Eh8-v9-otc"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="nUC-35-BzD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uO4-KJ-tfq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kvP-63-He2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-906" y="1334"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="lpH-RR-FAI">
             <objects>
@@ -162,11 +188,18 @@
                         <viewLayoutGuide key="safeArea" id="yPO-a5-gcw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="xmJ-fl-wzM"/>
+                    <navigationItem key="navigationItem" id="xmJ-fl-wzM">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="line.3.horizontal" catalog="system" id="3eC-8H-NAM">
+                            <connections>
+                                <action selector="menuBarItem:" destination="DcN-1a-qeB" id="u7s-m7-com"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="QS4-Uy-bg9" id="5Mk-q6-Eg4"/>
                         <segue destination="IbH-Kz-iq3" kind="show" identifier="toCityVc" id="9EL-MI-wf4"/>
+                        <segue destination="M4n-nH-QXu" kind="show" identifier="toMenuVc" id="7Ri-c7-vNX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vxr-4Y-Ckg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -313,6 +346,7 @@
     </scenes>
     <resources>
         <image name="Ekran Resmi 2024-10-30 23.34.08" width="778" height="538"/>
+        <image name="line.3.horizontal" catalog="system" width="128" height="65"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

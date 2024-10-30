@@ -28,6 +28,12 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
     
+    @IBAction func menuBarItem(_ sender: Any) {
+        print("Hamburger menüye tıklandı")
+        performSegue(withIdentifier: "toMenuVc", sender: nil)
+    }
+    
+    
     // MARK: - UICollectionViewDataSource Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
