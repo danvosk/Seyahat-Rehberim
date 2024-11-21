@@ -10,10 +10,12 @@ import Firebase
 
 struct Landmark {
     let name: String
+    let description: String // Landmark açıklamasını tutmak için eklendi
 }
 
 struct City {
     let title: String
+    let description: String // Şehir açıklamasını tutmak için
     let imageName: String // Görsel ismini tutmak için
     var landmarks: [Landmark]
     
@@ -41,11 +43,12 @@ class CityData {
             for document in documents {
                 let title = document.documentID
                 let imageName = document.documentID // imageName olarak şehir ismini kullanıyoruz
+                let description = document.data()["description"] as? String ?? "Açıklama bulunamadı." // Şehir açıklaması
                 let landmarksCollection = document.reference.collection("landmarks")
                 
                 dispatchGroup.enter()
                 fetchLandmarks(forCityTitle: title, landmarksCollection: landmarksCollection) { landmarks in
-                    let city = City(title: title, imageName: imageName, landmarks: landmarks)
+                    let city = City(title: title, description: description, imageName: imageName, landmarks: landmarks)
                     cities.append(city)
                     dispatchGroup.leave()
                 }
@@ -57,7 +60,6 @@ class CityData {
         }
     }
 
-    
     static func fetchLandmarks(forCityTitle title: String, landmarksCollection: CollectionReference, completion: @escaping ([Landmark]) -> Void) {
         var landmarks: [Landmark] = []
         
@@ -70,7 +72,8 @@ class CityData {
             
             for document in documents {
                 let name = document.data()["name"] as? String ?? "Unknown"
-                let landmark = Landmark(name: name)
+                let description = document.data()["description"] as? String ?? "Açıklama bulunamadı." // Description çekiliyor
+                let landmark = Landmark(name: name, description: description)
                 landmarks.append(landmark)
             }
             completion(landmarks)

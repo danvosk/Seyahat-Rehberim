@@ -179,11 +179,29 @@
                     <connections>
                         <outlet property="tableView" destination="clG-Yc-HYr" id="BtV-e3-pgl"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="toLoginVC" modalPresentationStyle="fullScreen" id="czd-ck-egN"/>
+                        <segue destination="lz8-SW-a9g" kind="show" identifier="toFavouritesVc" id="UOw-P5-hZ4"/>
+                        <segue destination="PDp-mn-Wgc" kind="show" identifier="toSettingsVc" id="o2W-uu-sty"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kvP-63-He2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-906.10687022900754" y="1333.8028169014085"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="Tw7-3B-mi6">
+            <objects>
+                <viewController id="PDp-mn-Wgc" customClass="SettingsViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="c6s-el-De8">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="kIh-FG-GCa"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Dr5-BQ-bAV"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u2J-Z5-rvg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-906" y="2067"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="lpH-RR-FAI">
@@ -301,11 +319,41 @@
                     <connections>
                         <outlet property="cityName" destination="igx-Eh-iDz" id="s57-8C-cGf"/>
                         <outlet property="tableView" destination="66D-gw-sRl" id="1rR-nS-wht"/>
+                        <segue destination="04P-e1-4Sk" kind="show" identifier="toPlaceVc" id="Jzq-Ny-a2t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ghc-R6-Xb8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1104.5801526717557" y="1333.8028169014085"/>
+        </scene>
+        <!--Place View Controller-->
+        <scene sceneID="XVP-JE-n4h">
+            <objects>
+                <viewController id="04P-e1-4Sk" customClass="PlaceViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sJ3-e2-q8S">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="GsV-dr-Pkl">
+                                <rect key="frame" x="16" y="470" width="361" height="362"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jWi-fl-LGa"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ms0-P6-eVc"/>
+                    <connections>
+                        <outlet property="textView" destination="GsV-dr-Pkl" id="Lbd-zD-zjW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LSv-Io-wAl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2067.93893129771" y="1333.8028169014085"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="T0b-rn-ROY">
@@ -399,6 +447,22 @@
             </objects>
             <point key="canvasLocation" x="1165.6488549618321" y="-180.28169014084509"/>
         </scene>
+        <!--Favourites View Controller-->
+        <scene sceneID="rXm-co-QY2">
+            <objects>
+                <viewController id="lz8-SW-a9g" customClass="FavouritesViewController" customModule="Seyahat_Rehberim" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bZZ-cC-d39">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="b69-hg-HTW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Iyh-CZ-W1m"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nVn-Zg-7Fi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1833" y="1334"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="czd-ck-egN"/>
@@ -406,6 +470,9 @@
     <resources>
         <image name="Ekran Resmi 2024-10-30 23.34.08" width="778" height="538"/>
         <image name="line.3.horizontal" catalog="system" width="128" height="65"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
