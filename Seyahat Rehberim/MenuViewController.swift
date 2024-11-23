@@ -1,8 +1,6 @@
-///
+//
 //  MenuViewController.swift
 //  Seyahat Rehberim
-//
-//  Created by Görkem Karagöz on 31.10.2024.
 //
 
 import UIKit
@@ -11,7 +9,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBOutlet weak var tableView: UITableView!
         
-    let menuItems = [("Hesap Ayarları", "settings_icon"), ("Favori Yerlerim", "favorite_icon")]
+    let menuItems = [("Profil Ayarları", "person.crop.circle"), ("Favori Yerlerim", "star")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,11 +59,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.titleLabel.text = title
         
         // SF Symbols ile storyboard'da ayarlanmışsa ekstra kod yazmaya gerek yok
-        if imageName == "settings_icon" {
-            cell.iconImageView.image = UIImage(systemName: "gearshape")
-        } else if imageName == "favorite_icon" {
-            cell.iconImageView.image = UIImage(systemName: "star")
-        }
+        cell.iconImageView.image = UIImage(systemName: imageName)
         
         return cell
     }
@@ -77,9 +71,9 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            // Hesap Ayarları ekranına yönlendirme
-            print("Hesap Ayarları seçildi.")
-            performSegue(withIdentifier: "toSettingsVc", sender: indexPath)
+            // Profil Ayarları ekranına yönlendirme
+            print("Profil Ayarları seçildi.")
+            performSegue(withIdentifier: "toProfileVc", sender: indexPath)
         } else if indexPath.row == 1 {
             // Favori Yerlerim ekranına yönlendirme
             print("Favori Yerlerim seçildi.")
@@ -93,8 +87,8 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let indexPath = sender as? IndexPath {
             let selectedMenuItem = menuItems[indexPath.row].0 // Menü öğesinin başlığını al
             
-            if segue.identifier == "toSettingsVc",
-               let destinationVC = segue.destination as? SettingsViewController {
+            if segue.identifier == "toProfileVc",
+               let destinationVC = segue.destination as? ProfileViewController {
                 destinationVC.navigationTitle = selectedMenuItem // Başlığı aktar
             } else if segue.identifier == "toFavouritesVc",
                       let destinationVC = segue.destination as? FavouritesViewController {
