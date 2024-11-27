@@ -1,22 +1,22 @@
-//
 //  City.swift
 //  Seyahat Rehberim
-//
-//  Created by Görkem Karagöz on 29.10.2024.
 //
 
 import UIKit
 import Firebase
 
+// Landmark modeli, koordinatları içeriyor
 struct Landmark {
     let name: String
-    let description: String // Landmark açıklamasını tutmak için eklendi
+    let description: String
+    let latitude: Double
+    let longitude: Double
 }
 
 struct City {
     let title: String
-    let description: String // Şehir açıklamasını tutmak için
-    let imageName: String // Görsel ismini tutmak için
+    let description: String
+    let imageName: String
     var landmarks: [Landmark]
     
     var image: UIImage? {
@@ -36,14 +36,13 @@ class CityData {
                 return
             }
             
-            cities.removeAll() // Mevcut şehir listesini temizliyoruz
+            cities.removeAll()
+            let dispatchGroup = DispatchGroup()
             
-            let dispatchGroup = DispatchGroup() // Tüm işlemler tamamlandıktan sonra çağırmak için
-
             for document in documents {
                 let title = document.documentID
-                let imageName = document.documentID // imageName olarak şehir ismini kullanıyoruz
-                let description = document.data()["description"] as? String ?? "Açıklama bulunamadı." // Şehir açıklaması
+                let imageName = document.documentID
+                let description = document.data()["description"] as? String ?? "Açıklama bulunamadı."
                 let landmarksCollection = document.reference.collection("landmarks")
                 
                 dispatchGroup.enter()
@@ -55,7 +54,7 @@ class CityData {
             }
             
             dispatchGroup.notify(queue: .main) {
-                completion() // Tüm veriler çekildikten sonra tamamlanıyor
+                completion()
             }
         }
     }
@@ -72,8 +71,10 @@ class CityData {
             
             for document in documents {
                 let name = document.data()["name"] as? String ?? "Unknown"
-                let description = document.data()["description"] as? String ?? "Açıklama bulunamadı." // Description çekiliyor
-                let landmark = Landmark(name: name, description: description)
+                let description = document.data()["description"] as? String ?? "Açıklama bulunamadı."
+                let latitude = document.data()["latitude"] as? Double ?? 0.0
+                let longitude = document.data()["longitude"] as? Double ?? 0.0
+                let landmark = Landmark(name: name, description: description, latitude: latitude, longitude: longitude)
                 landmarks.append(landmark)
             }
             completion(landmarks)

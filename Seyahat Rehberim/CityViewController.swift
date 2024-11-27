@@ -2,9 +2,7 @@
 //  CityViewController.swift
 //  Seyahat Rehberim
 //
-//  Created by Görkem Karagöz on 29.10.2024.
-//
-//
+
 import UIKit
 import Firebase
 
@@ -13,47 +11,39 @@ class CityViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var cityName: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     
-    var selectedCityName: String? // MainViewController’dan gelen şehir ismi
-    var landmarks: [Landmark] = [] // Firebase’den çekilen landmark verileri
+    var selectedCityName: String?
+    var landmarks: [Landmark] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Şehir adını navigation bar’da göster
         cityName.title = selectedCityName
-        
-        // TableView veri kaynağı ve delegesi
         tableView.dataSource = self
         tableView.delegate = self
-        
-        // Firebase’den landmark verilerini çek
         fetchLandmarksForSelectedCity()
     }
     
     func fetchLandmarksForSelectedCity() {
         guard let cityName = selectedCityName else { return }
         
-        // Firestore bağlantısı
         let db = Firestore.firestore()
         let landmarksCollection = db.collection("cities").document(cityName).collection("landmarks")
         
-        // Landmark verilerini çek
         landmarksCollection.getDocuments { [weak self] (snapshot, error) in
-            guard let self = self else { return } // Retain cycle önlemek için
+            guard let self = self else { return }
             
             guard let documents = snapshot?.documents, error == nil else {
                 print("Error fetching landmarks for \(cityName): \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
             
-            // Landmark verilerini landmarks array’ine ekle
             self.landmarks = documents.compactMap { doc in
                 let name = doc.data()["name"] as? String ?? "Unknown"
                 let description = doc.data()["description"] as? String ?? "Açıklama bulunamadı."
-                return Landmark(name: name, description: description)
+                let latitude = doc.data()["latitude"] as? Double ?? 0.0
+                let longitude = doc.data()["longitude"] as? Double ?? 0.0
+                return Landmark(name: name, description: description, latitude: latitude, longitude: longitude)
             }
             
-            // TableView’ı güncelle
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -66,8 +56,7 @@ class CityViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LandmarkCell", for: indexPath)
-        let landmark = landmarks[indexPath.row]
-        cell.textLabel?.text = landmark.name
+        cell.textLabel?.text = landmarks[indexPath.row].name
         return cell
     }
     
@@ -83,7 +72,9 @@ class CityViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let selectedLandmark = landmarks[indexPath.row]
             destinationVC.cityName = selectedCityName
             destinationVC.landmarkName = selectedLandmark.name
-            destinationVC.landmarkDescription = selectedLandmark.description // Description gönderiliyor
+            destinationVC.landmarkDescription = selectedLandmark.description
+            destinationVC.latitude = selectedLandmark.latitude
+            destinationVC.longitude = selectedLandmark.longitude
         }
     }
 }

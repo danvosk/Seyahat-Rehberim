@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var surnameTextField: UITextField!
@@ -24,6 +24,14 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTextFields()
+        configureGestureToDismissKeyboard()
+
+        // TextField'ların delegelerini ayarla
+        nameTextField.delegate = self
+        surnameTextField.delegate = self
+        mailTextField.delegate = self
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
     }
 
     @IBAction func backButton(_ sender: Any) {
@@ -31,6 +39,8 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func registerButton(_ sender: Any) {
+        view.endEditing(true) // Klavyeyi kapat
+        
         guard let name = nameTextField.text, !name.isEmpty,
               let surname = surnameTextField.text, !surname.isEmpty,
               let email = mailTextField.text, !email.isEmpty,
@@ -119,6 +129,22 @@ class RegisterViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Klavyeyi kapatma
+    private func configureGestureToDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true) // Klavyeyi kapatır
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // Klavyeyi kapatır
+        return true
+    }
+
+    // MARK: - TextField Tasarımı
     private func configureTextFields() {
         configureTextField(nameTextField, placeholder: "İsim")
         configureTextField(surnameTextField, placeholder: "Soy İsim")
