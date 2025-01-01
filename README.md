@@ -41,13 +41,3 @@ Bu uygulama, seyahat eden kişilerin yeni şehirler keşfederken ihtiyaç duyabi
 ### **Harita Entegrasyonu:**
 - **Apple Maps SDK:** Yerel haritalama ve rota oluşturma.
 
-## 📷 Ekran Görüntüleri
-
-### Giriş Ekranı
-![Giriş Ekranı](giris.jpg)
-
-### Ana Menü
-![Ana Menü](anamenu.jpg)
-
-### Detaylar Sayfası
-![Detaylar Sayfası](detaylar.jpg)
