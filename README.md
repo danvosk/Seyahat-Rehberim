@@ -35,8 +35,19 @@ Bu uygulama, seyahat eden kişilerin yeni şehirler keşfederken ihtiyaç duyabi
 
 ### **Backend:**
 - **Firebase Authentication:** Kullanıcı kimlik doğrulama.
-- **Firebase Realtime Database:** Veritabanı yönetimi.
+- **Firestore Database:** Veritabanı yönetimi.
 - **Firebase Storage:** Fotoğraf ve diğer medya dosyalarının depolanması.
 
 ### **Harita Entegrasyonu:**
 - **Apple Maps SDK:** Yerel haritalama ve rota oluşturma.
+
+## 📷 Ekran Görüntüleri
+
+### Giriş Ekranı
+![Giriş Ekranı](giris.jpg)
+
+### Ana Menü
+![Ana Menü](anamenu.jpg)
+
+### Detaylar Sayfası
+![Detaylar Sayfası](detaylar.jpg)
