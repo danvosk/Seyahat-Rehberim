@@ -11,6 +11,8 @@ struct Landmark {
     let description: String
     let latitude: Double
     let longitude: Double
+    let imageName: String // Görsel adı (Assets'teki görselin adıyla eşleşiyor)
+
 }
 
 struct City {
@@ -18,7 +20,6 @@ struct City {
     let description: String
     let imageName: String
     var landmarks: [Landmark]
-    
     var image: UIImage? {
         return UIImage(named: imageName)
     }
@@ -58,7 +59,7 @@ class CityData {
             }
         }
     }
-
+    
     static func fetchLandmarks(forCityTitle title: String, landmarksCollection: CollectionReference, completion: @escaping ([Landmark]) -> Void) {
         var landmarks: [Landmark] = []
         
@@ -74,7 +75,8 @@ class CityData {
                 let description = document.data()["description"] as? String ?? "Açıklama bulunamadı."
                 let latitude = document.data()["latitude"] as? Double ?? 0.0
                 let longitude = document.data()["longitude"] as? Double ?? 0.0
-                let landmark = Landmark(name: name, description: description, latitude: latitude, longitude: longitude)
+                let imageName = document.data()["imageName"] as? String ?? "" // Görsel adı
+                let landmark = Landmark(name: name, description: description, latitude: latitude, longitude: longitude, imageName: imageName)
                 landmarks.append(landmark)
             }
             completion(landmarks)

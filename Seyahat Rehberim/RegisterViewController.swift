@@ -55,7 +55,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             guard let self = self else { return }
             
             if exists {
-                self.showAlert(title: "Kayıt Hatası", message: "Kullanıcı adı veya e-posta zaten kullanımda.")
+                // Hata mesajı zaten checkIfUsernameOrEmailExists içinde gösterildi.
             } else {
                 self.createUser(name: name, surname: surname, email: email, username: username, password: password)
             }
@@ -91,34 +91,45 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func checkIfUsernameOrEmailExists(username: String, email: String, completion: @escaping (Bool) -> Void) {
-        // Firestore'da username veya email eşleşmesini kontrol et
         let usernameQuery = db.collection("users").whereField("username", isEqualTo: username)
+        let emailQuery = db.collection("users").whereField("email", isEqualTo: email)
         
+        // Kullanıcı adı ve e-posta sorgularını aynı anda çalıştır
+        let group = DispatchGroup()
+        var usernameExists = false
+        var emailExists = false
+        
+        group.enter()
         usernameQuery.getDocuments { (snapshot, error) in
             if let error = error {
                 print("Hata: \(error.localizedDescription)")
-                completion(false)
-                return
+            } else if let snapshot = snapshot, !snapshot.isEmpty {
+                usernameExists = true
             }
-            
-            if let snapshot = snapshot, !snapshot.isEmpty {
-                completion(true) // Kullanıcı adı mevcut
+            group.leave()
+        }
+        
+        group.enter()
+        emailQuery.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Hata: \(error.localizedDescription)")
+            } else if let snapshot = snapshot, !snapshot.isEmpty {
+                emailExists = true
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            if usernameExists || emailExists {
+                let errorMessage = usernameExists && emailExists
+                    ? "Kullanıcı adı ve e-posta zaten kullanımda."
+                    : usernameExists
+                    ? "Kullanıcı adı zaten kullanımda."
+                    : "E-posta zaten kullanımda."
+                self.showAlert(title: "Kayıt Hatası", message: errorMessage)
+                completion(true)
             } else {
-                let emailQuery = self.db.collection("users").whereField("email", isEqualTo: email)
-                
-                emailQuery.getDocuments { (snapshot, error) in
-                    if let error = error {
-                        print("Hata: \(error.localizedDescription)")
-                        completion(false)
-                        return
-                    }
-                    
-                    if let snapshot = snapshot, !snapshot.isEmpty {
-                        completion(true) // E-posta mevcut
-                    } else {
-                        completion(false) // Kullanıcı adı ve e-posta kullanılabilir
-                    }
-                }
+                completion(false)
             }
         }
     }
@@ -146,14 +157,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: - TextField Tasarımı
     private func configureTextFields() {
-        configureTextField(nameTextField, placeholder: "İsim")
-        configureTextField(surnameTextField, placeholder: "Soy İsim")
-        configureTextField(mailTextField, placeholder: "E-posta")
-        configureTextField(usernameTextField, placeholder: "Kullanıcı Adı")
-        configureTextField(passwordTextField, placeholder: "Parola", isSecure: true)
+        configureTextField(nameTextField, placeholder: "İsim", imageName: "person.fill")
+        configureTextField(surnameTextField, placeholder: "Soy İsim", imageName: "person.fill")
+        configureTextField(mailTextField, placeholder: "E-posta", imageName: "envelope.fill")
+        configureTextField(usernameTextField, placeholder: "Kullanıcı Adı", imageName: "person.crop.circle.fill")
+        configureTextField(passwordTextField, placeholder: "Parola", imageName: "lock.fill", isSecure: true)
     }
-    
-    private func configureTextField(_ textField: UITextField, placeholder: String, isSecure: Bool = false) {
+
+    private func configureTextField(_ textField: UITextField, placeholder: String, imageName: String, isSecure: Bool = false) {
         textField.placeholder = placeholder
         textField.backgroundColor = UIColor.black.withAlphaComponent(0.05) // Hafif gri arka plan
         textField.layer.cornerRadius = 10 // Köşe yuvarlatma
@@ -163,5 +174,15 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         textField.clearButtonMode = .whileEditing // Silme butonu
         textField.frame.size.height = 50 // Yükseklik
         textField.isSecureTextEntry = isSecure // Parola için gizleme
+
+        // Sol tarafta ikon ekle
+        let iconSize: CGFloat = 24
+        let iconView = UIImageView(frame: CGRect(x: 10, y: 13, width: iconSize, height: iconSize))
+        iconView.image = UIImage(systemName: imageName)
+        iconView.tintColor = .gray
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        paddingView.addSubview(iconView)
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
     }
 }

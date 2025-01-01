@@ -37,11 +37,17 @@ class CityViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             
             self.landmarks = documents.compactMap { doc in
-                let name = doc.data()["name"] as? String ?? "Unknown"
-                let description = doc.data()["description"] as? String ?? "Açıklama bulunamadı."
-                let latitude = doc.data()["latitude"] as? Double ?? 0.0
-                let longitude = doc.data()["longitude"] as? Double ?? 0.0
-                return Landmark(name: name, description: description, latitude: latitude, longitude: longitude)
+                let docName = doc.documentID
+                // Sadece "landmark" ile başlayan belgeleri filtrele
+                if docName.starts(with: "landmark") {
+                    let name = doc.data()["name"] as? String ?? "Unknown"
+                    let description = doc.data()["description"] as? String ?? "Açıklama bulunamadı."
+                    let latitude = doc.data()["latitude"] as? Double ?? 0.0
+                    let longitude = doc.data()["longitude"] as? Double ?? 0.0
+                    let imageName = doc.data()["imageName"] as? String ?? "" // Görsel adı
+                    return Landmark(name: name, description: description, latitude: latitude, longitude: longitude, imageName: imageName)
+                }
+                return nil
             }
             
             DispatchQueue.main.async {
@@ -65,6 +71,18 @@ class CityViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "toPlaceVc",
+//           let destinationVC = segue.destination as? PlaceViewController,
+//           let indexPath = sender as? IndexPath {
+//            let selectedLandmark = landmarks[indexPath.row]
+//            destinationVC.cityName = selectedCityName
+//            destinationVC.landmarkName = selectedLandmark.name
+//            destinationVC.landmarkDescription = selectedLandmark.description
+//            destinationVC.latitude = selectedLandmark.latitude
+//            destinationVC.longitude = selectedLandmark.longitude
+//        }
+//    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toPlaceVc",
            let destinationVC = segue.destination as? PlaceViewController,
@@ -75,6 +93,8 @@ class CityViewController: UIViewController, UITableViewDataSource, UITableViewDe
             destinationVC.landmarkDescription = selectedLandmark.description
             destinationVC.latitude = selectedLandmark.latitude
             destinationVC.longitude = selectedLandmark.longitude
+            destinationVC.landmarkImageName = selectedLandmark.imageName // Görsel adını aktar
         }
     }
 }
+

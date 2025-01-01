@@ -12,7 +12,9 @@ import FirebaseDatabase
 class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
+    private var activityIndicator: UIActivityIndicatorView! // Indicator için bir değişken
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,19 +22,59 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         collectionView.delegate = self
         collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         
+        setupActivityIndicator() // Indicator'ı ayarla ve göster
+        
         // Firebase'den şehir verilerini yükle ve güncelle
         CityData.fetchCities {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.stopActivityIndicator() // Yükleme tamamlandı, indicator'ı durdur
             }
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hücrelerin seçim durumunu sıfırla
+        if let selectedItems = collectionView.indexPathsForSelectedItems {
+            for indexPath in selectedItems {
+                collectionView.deselectItem(at: indexPath, animated: false)
+                if let cell = collectionView.cellForItem(at: indexPath) {
+                    cell.contentView.backgroundColor = UIColor.white // Varsayılan renge döndür
+                }
+            }
+        }
+    }
+  
+    private func setupActivityIndicator() {
+        // Indicator'ı oluştur
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .gray
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Görünüme ekle
+        view.addSubview(activityIndicator)
+        
+        // Ortala
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        // Başlat
+        activityIndicator.startAnimating()
+    }
+    
+    private func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.removeFromSuperview() // Yükleme tamamlandıktan sonra kaldır
+    }
+
     @IBAction func menuBarItem(_ sender: Any) {
         print("Hamburger menüye tıklandı")
         performSegue(withIdentifier: "toMenuVc", sender: nil)
     }
-    
     
     // MARK: - UICollectionViewDataSource Methods
     

@@ -24,5 +24,13 @@ class CitiesCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 0.5
         self.layer.cornerRadius = 8
         self.layer.masksToBounds = true
+        
+        setupSelectedBackgroundView() // Seçim arka planını ayarla
+    }
+    
+    private func setupSelectedBackgroundView() {
+        let selectedView = UIView()
+        selectedView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5) // Seçim arka plan rengi
+        selectedBackgroundView = selectedView
     }
 }

@@ -2,25 +2,30 @@
 //  FavouritesViewController.swift
 //  Seyahat Rehberim
 //
-
+//
 import UIKit
 import Firebase
 import FirebaseAuth
+import DZNEmptyDataSet
 
-class FavouritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FavouritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
 
     @IBOutlet weak var favouritesTableView: UITableView!
 
     var favouriteLandmarks: [(documentID: String, landmarkName: String)] = [] // Favori mekan isimlerini saklıyor
-
     var navigationTitle: String? // Menüden gelen başlığı saklamak için
+
+    var isLoading: Bool = true // Yüklenme durumu kontrolü
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         favouritesTableView.dataSource = self
         favouritesTableView.delegate = self
-        
+        favouritesTableView.emptyDataSetSource = self
+        favouritesTableView.emptyDataSetDelegate = self
+        favouritesTableView.tableFooterView = UIView() // Boş satırları gizler
+
         // Başlığı navigation bar'a atayın
         self.title = "Favori Yerlerim"
         
@@ -37,6 +42,10 @@ class FavouritesViewController: UIViewController, UITableViewDataSource, UITable
             guard let self = self else { return }
             if let error = error {
                 print("Favoriler alınırken hata oluştu: \(error.localizedDescription)")
+                self.isLoading = false
+                DispatchQueue.main.async {
+                    self.favouritesTableView.reloadEmptyDataSet()
+                }
                 return
             }
             
@@ -47,8 +56,10 @@ class FavouritesViewController: UIViewController, UITableViewDataSource, UITable
                 return (documentID: documentID, landmarkName: landmarkName)
             } ?? []
             
+            self.isLoading = false // Yüklenme tamamlandı
             DispatchQueue.main.async {
                 self.favouritesTableView.reloadData()
+                self.favouritesTableView.reloadEmptyDataSet() // Boş veri setini kontrol et
             }
         }
     }
@@ -89,6 +100,7 @@ class FavouritesViewController: UIViewController, UITableViewDataSource, UITable
                     self?.favouriteLandmarks.remove(at: indexPath.row)
                     DispatchQueue.main.async {
                         tableView.deleteRows(at: [indexPath], with: .automatic)
+                        self?.favouritesTableView.reloadEmptyDataSet() // Boş veri setini yeniden yükle
                     }
                 }
             }
@@ -98,5 +110,33 @@ class FavouritesViewController: UIViewController, UITableViewDataSource, UITable
     // Yana kaydırma sırasında görünen "Sil" butonunu özelleştir
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "Kaldır"
+    }
+    
+    // MARK: - DZNEmptyDataSet
+    
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return !isLoading && favouriteLandmarks.isEmpty // Yüklenme tamamlandıysa ve liste boşsa göster
+    }
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let title = "Favorileriniz Boş"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 18),
+            .foregroundColor: UIColor.darkGray
+        ]
+        return NSAttributedString(string: title, attributes: attributes)
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let description = "Henüz favorilere herhangi bir yer eklemediniz.\nFavorilere yer eklemek için bir yer seçin ve favorilere ekleyin!"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 14),
+            .foregroundColor: UIColor.lightGray
+        ]
+        return NSAttributedString(string: description, attributes: attributes)
+    }
+
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+        return UIImage(named: "empty_favourites") // Anlamlı bir görsel ekleyin
     }
 }
